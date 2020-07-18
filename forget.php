@@ -2,6 +2,7 @@
 <h1>密码找回</h1>
 
 <?php 
+$errmsg = '';
 
 // 连接数据库
 $link = mysqli_connect('localhost:3308', 'root', '', 'bigwork');
@@ -25,15 +26,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $answer2 = $result[0][4];
     $question3 = $result[0][5];
     $answer3 = $result[0][6];
+    if ($_POST['operation'] == 'edit') {
+        // 判断输入上来的密保问题对不对
+        if ($_POST['post_answer1'] == $answer1 && $_POST['post_answer2'] == $answer2 && $_POST['post_answer3'] == $answer3) {
+            // 将新密码写入数据库
+            $pwdhash = crypt($_POST['password'], 'salt');
+            $sql = "update `user_info` set `pwdhash`=\"$pwdhash\" where user=\"{$_POST['user']}\"";
+            $result = mysqli_query($link, $sql);
+            if (!$result) {
+                echo '执行失败'.mysqli_error($link);
+            }
+            // 跳转到提示页面
+            header("location: error.php?message=密码修改成功&url=index.php&note=返回首页");
+        }
+        else {
+            $errmsg = '密保答案错误';
+        }
+    }
+    
 }
 
 ?>
+<?php echo $errmsg; ?>
 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
     <table>
         <?php
         // 需要先让用户输入用户名，才能从数据库拿密保，所以需要做判断
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo <<<xxx
+            <input type="hidden" name="user" value="{$_POST['user']}">
             <input type="hidden" name="operation" value="edit">
             <tr>
                 <td>用户名：</td>
@@ -65,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </tr>
             <tr>
                 <td>新密码</td>
-                <td><input type="text" ></td>
+                <td><input type="password" name="password"></td>
             </tr>
             <tr>
                 <td>
