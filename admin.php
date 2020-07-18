@@ -99,6 +99,23 @@ if (!$result) {
     echo '执行失败'.mysqli_error($link);
 }
 
+// 创建用户找回密码的密保问题数据表
+$sql = <<<xxx
+create table if not exists `user_question` (
+    `user` varchar(20) not null primary key,
+    `question1` varchar(100) not null,
+    `answer1` varchar(100) not null,
+    `question2` varchar(100) not null,
+    `answer2` varchar(100) not null,
+    `question3` varchar(100) not null,
+    `answer3` varchar(100) not null
+)
+xxx;
+$result = mysqli_query($link, $sql);
+if (!$result) {
+    echo '执行失败'.mysqli_error($link);
+}
+
 // 创建管理员账户数据表
 $sql = <<<xxx
 create table if not exists `admin`(
