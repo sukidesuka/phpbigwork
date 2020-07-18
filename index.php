@@ -98,6 +98,7 @@ else {
                 <input type="submit" value='登录'></input>
                 <a href="register.php"><button type="button">注册</button></a>
             </td>
+            <td><a href="forget.php">忘记密码？</a></td>
         </tr>
         <tr>
             <td>

@@ -24,7 +24,7 @@ if (!$result) {
 
 // 创建用户的数据表 用户名 密码
 $sql = <<<xxx
-create table if not exists userinfo(
+create table if not exists user_info(
     user varchar(20) not null primary key,
     pwdhash varchar(255) not null
 )
