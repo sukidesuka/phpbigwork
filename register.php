@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // 跳转到信息提示页面提示注册成功
-    //header("location: error.php?message=注册成功&url=index.php&note=返回首页");
+    header("location: error.php?message=注册成功&url=index.php&note=返回首页");
 }
 ?>
 
