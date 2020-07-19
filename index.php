@@ -12,7 +12,7 @@ if (!$link) {
 }
 
 // 处理post请求
-$user = $password = $errmsg = '';
+$user = $password = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = $_POST['user'];
     $password = $_POST['password'];
@@ -24,48 +24,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     //// 验证用户名和密码
     // 验证用户名是否存在
-    $sql = 'select * from user_info';
+    $sql = "select * from user_info where user = \"$user\"";
     $result = mysqli_query($link, $sql);
-    var_dump($result);
     $result = $result->fetch_all();
+    if (count($result) > 0) {
+        $userExist = true;
+        $userPwd = $result[0][1];
 
-    $userExist = false;
-    $userPwd = '';
-    for ($i = 0; $i < count($result); $i++) {
-        if ($result[$i][0] == $user) {
-            $userExist = true;
-            $userPwd = $result[$i][1];
-        }
-    }
-    if (!$userExist) {
-        $errmsg = '用户名不存在';
-        return;
-    }
-    // 验证密码是否正确
-    $pwdCorrect = false;
-    if ($userPwd == $password) {
-        $pwdCorrect = true;
-    }
-    if (!$pwdCorrect) {
-        $errmsg = '密码错误';
-        return;
-    }
-    // 验证验证码
-    if (empty($_POST['vcode'])) {
-        $errmsg = "请填写验证码！";
-    } else {
-        if (0 == strcasecmp($_POST['vcode'], $_SESSION['vcode'])) {  //不区分大小写比较
-            // 如果有勾选'记住我'，则将user写入cookie
-            if (isset($_POST['checkbox'])) {
-                setcookie('user', $user, time() + 3600);        // cookies有效期1小时
+        // 验证密码是否正确
+        if (hash_equals($result[0][1], crypt($password, 'salt'))) {
+            // 验证验证码
+            if (empty($_POST['vcode'])) {
+                echo '<p>请填写验证码</p>';
+            } else {
+                if (0 == strcasecmp($_POST['vcode'], $_SESSION['vcode'])) {  //不区分大小写比较
+                    // 如果有勾选'记住我'，则将user写入cookie
+                    if (isset($_POST['checkbox'])) {
+                        setcookie('user', $user, time() + 3600);        // cookies有效期1小时
+                    }
+                    // 跳转到欢迎页面
+                    $_SESSION['user'] = $user;      // 将用户名写入session（就不用token了）
+                    header("location: welcome.php");
+                } else {
+                    echo '<p>验证码错误</p>';
+                }
             }
-            // 跳转到欢迎页面
-            $_SESSION['user'] = $user;      // 将用户名写入session（就不用token了）
-            header("location: welcome.php");
-        } else {
-            $errmsg = '验证码错误';
         }
+        else {
+            echo '<p>密码错误</p>';
+        }
+
+
     }
+    else {
+        echo '<p>用户名不存在</p>';
+    }
+    
+    
 }
 else {
     // 非POST请求则判断cookie是否存在，存在则直接读取cookie中的user且跳转登录
@@ -77,20 +72,19 @@ else {
 
 ?>
 
-<p><?php echo $errmsg; ?></p>
 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
     <table>
         <tr>
-            <td><label for='user'>用户名：</label></td>
-            <td><input type='text' name='user' id='user' value='<?php echo $user; ?>' /></td>
+            <td>用户名：</td>
+            <td><input type='text' name='user' value='<?php echo $user; ?>' /></td>
         </tr>
         <tr>
-            <td><label for='password'>密码：</label></td>
-            <td><input type='password' name='password' id='password' value='<?php echo $password; ?>' /></td>
+            <td>密码：</td>
+            <td><input type='password' name='password' value='<?php echo $password; ?>' /></td>
         </tr>
         <tr>
-            <td><label for='vcode'>验证码：</label></td>
-            <td><input type='password' name='vcode' id='vcode' /></td>
+            <td>验证码：</td>
+            <td><input type='password' name='vcode' /></td>
             <td><img src="vcode.php?width=100&height=35" alt="验证码"></td>
         </tr>
         <tr>
