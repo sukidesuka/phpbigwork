@@ -48,11 +48,19 @@ for ($i = 0; $i < count($result); $i++) {
             <a href='adminaccountmanager.php'><button type="button">管理员账户管理</button></a>
         </td>
     </tr>
-    <tr>
-        <td>
-            <a href='useraccountmanager.php'><button type="button">用户账户管理</button></a>
-        </td>
-    </tr>
+    <?php
+    // 账户权限小于3才显示这个
+    if ($level < 3) {
+        echo <<<xxx
+        <tr>
+            <td>
+                <a href='useraccountmanager.php'><button type="button">用户账户管理</button></a>
+            </td>
+        </tr>
+        xxx;
+    }
+    
+    ?>
     <tr>
         <td>
             <a href='roommanager.php'><button type="button">房间信息管理</button></a>

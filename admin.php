@@ -1,5 +1,5 @@
 <title>宾馆管理系统后台</title>
-<p>欢迎登录宾馆管理系统后台</p>
+<h1>欢迎登录宾馆管理系统后台</h1>
 <?php
 // 连接数据库
 $link = mysqli_connect('localhost:3308', 'root', '');

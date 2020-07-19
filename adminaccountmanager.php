@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="hidden" name="permission" value="$sqlpermission">
                     <input type="text" name="password" placeholder="输入要修改的密码">
                     <input type="submit" value="修改密码">
-                    </td>
+                </td> 
             </form>
             xxx;
         }
@@ -154,14 +154,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $delUser = $result[$i][0];
             $sqlpermission = $result[$i][2];
             echo <<<xxx
-            <td>
-                <form action="$self" method="post">
+            <form action="$self" method="post">
+                <td>
                     <input type="hidden" name="operate" value="delete">
                     <input type="hidden" name="user" value="$delUser">
                     <input type="hidden" name="permission" value="$sqlpermission">
                     <input type="submit" value="删除账户">
-                </form>
-            </td>
+                </td>
+            </form>
             xxx;
         }
         else {
