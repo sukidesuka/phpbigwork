@@ -71,11 +71,11 @@ for ($i = 0; $i < count($result); $i++) {
             <a href="ordermanager.php"><button type="button">房间预定管理</button></a>
         </td>
     </tr>
-    <tr>
+    <!-- <tr>
         <td>
             <a href="ordermanager.php"><button type="button">房间入住管理</button></a>
         </td>
-    </tr>
+    </tr> -->
     <tr>
         <td>
             <a href="ordermanager.php"><button type="button">宾馆财务管理</button></a>
