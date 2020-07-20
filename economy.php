@@ -2,6 +2,7 @@
 <h1>营收额统计</h1>
 
 <?php
+session_start();
 // 连接数据库
 $link = mysqli_connect('localhost:3308', 'root', '', 'bigwork');
 if (!$link) {
@@ -27,13 +28,11 @@ for ($i = 0; $i < count($result); $i++) {
     $month = $temp[1];
     // 在对应月份上加上金额
     $total[(int)$month - 1] += (int)$result[$i][6];
-    // 绘图
-    session_start();
-    $_SESSION['graph_data'] = $total;
-    echo '<img src="graph.php" alt="折线图">';
 }
 
-
+// 绘图
+$_SESSION['graph_data'] = $total;
+echo '<img src="graph.php" alt="折线图">';
 ?>
 
 
@@ -46,7 +45,7 @@ for ($i = 0; $i < count($result); $i++) {
         <th>实际结算金额</th>
     </tr>
     <?php
-        echo "<tr>";
+        
         // 遍历已支付的订单
         $sql = "select * from login";
         $result = mysqli_query($link, $sql);
@@ -56,15 +55,13 @@ for ($i = 0; $i < count($result); $i++) {
         $result = $result->fetch_all();
         for ($i = 0; $i < count($result); $i++) {
             echo <<<xxx
+            <tr>
             <th>{$result[$i][0]}</th>
             <th>{$result[$i][3]}</th>
             <th>{$result[$i][5]}</th>
             <th>{$result[$i][6]}</th>
+            </tr>
             xxx;
         }
-        
-
-        echo "</tr>";
-    
     ?>
 </table>

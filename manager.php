@@ -78,7 +78,7 @@ for ($i = 0; $i < count($result); $i++) {
     </tr> -->
     <tr>
         <td>
-            <a href="ordermanager.php"><button type="button">宾馆财务管理</button></a>
+            <a href="economy.php"><button type="button">宾馆财务管理</button></a>
         </td>
     </tr>
 
