@@ -83,7 +83,7 @@ if (!$result) {
     echo '执行失败'.mysqli_error($link);
 }
 
-// 创建预定信息表 订单流水号 证件号 客房号 预定日期(yy-mm-dd) 预定入住日期(yy-mm-dd) 预定天数
+// 创建预定信息表 订单流水号 证件号 客房号 预定日期(yy-mm-dd) 预定入住日期(yy-mm-dd) 预定天数 此预定是否已完成
 $sql = <<<xxx
 create table if not exists pre_order(
     order_id int not null primary key auto_increment, 
@@ -91,7 +91,8 @@ create table if not exists pre_order(
     room_id varchar(20) not null,
     order_time varchar(20) not null,
     use_time varchar(20) not null,
-    use_long_time int not null
+    use_long_time int not null,
+    done varchar(20) not null
 )
 xxx;
 $result = mysqli_query($link, $sql);

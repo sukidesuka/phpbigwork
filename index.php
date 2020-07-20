@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                     // 跳转到欢迎页面
                     $_SESSION['user'] = $user;      // 将用户名写入session（就不用token了）
-                    header("location: welcome.php");
+                    header("location: order.php");
                 } else {
                     echo '<p>验证码错误</p>';
                 }
@@ -66,7 +66,7 @@ else {
     // 非POST请求则判断cookie是否存在，存在则直接读取cookie中的user且跳转登录
     if (isset($_COOKIE['user'])) {
         $_SESSION['user'] = $_COOKIE['user'];
-        header('location: welcome.php');
+        header('location: order.php');
     }
 }
 

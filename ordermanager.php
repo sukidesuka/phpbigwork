@@ -30,7 +30,8 @@ for ($i = 0; $i < count($result); $i++) {
     }
 }
 
-// 
+// 接受POST操作
+
 
 
 
@@ -44,6 +45,7 @@ for ($i = 0; $i < count($result); $i++) {
         <th>预定时间</th>
         <th>预定入住时间</th>
         <th>预定入住时长</th>
+        <th>操作</th>
     </tr>
     <?php 
     // 从数据库获取所有预定列表
@@ -64,6 +66,7 @@ for ($i = 0; $i < count($result); $i++) {
             <td><input type="text" value="{$result[$i][2]}" name="phone"></td>
             <td><input type="text" value="{$result[$i][3]}" name="stair"></td>
             <td><input type="text" value="{$result[$i][4]}" name="status"></td>
+            <td><input type="text" value="{$result[$i][5]}"></td>
             <td>
                 <input type="submit" value="修改">
                 <form action="{$_SERVER['PHP_SELF']}" method="post">
